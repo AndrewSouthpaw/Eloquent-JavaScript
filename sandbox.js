@@ -1,152 +1,110 @@
-function longestWord(sen) { 
-	return sen.match(/\w+/g)
-						.sort(function(a, b) { 
-							return b.length - a.length; 
-						})[0];
-}
-
-
-function LetterCapitalize(str) {
-	var words = str.split(" ");
-	for (i = 0; i < words.length; i++) {
-		words[i] = words[i][0].toUpperCase() + words[i].substr(1, words[i].length);
-	}
-	return words.join(" ");
-}
-
-function LetterCapitalize3(str) {
-	return str.replace(/\w\S*/g, function(txt) { return txt[0].toUpperCase() + txt.substr(1); });
-}
-
-
-function LetterCapitalize2(str) { 
-//var str = str.replace(/\s/,toUpperCase);
-  // code goes here  
-  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-         
-}
 
 
 
-function NumberAddition(str) { 
-
-  return str.split(/\D/g)
-            .reduce(function(total, cur) {
-              return total += (+cur);
-            }, 0);
-         
-}
+/****************************************************************
+Eloquent JavaScript: Chapter 3
+****************************************************************/
 
 
-/**
-SimpleSymbols
-====================
-
-Using the JavaScript language, have the function SimpleSymbols(str) take the str parameter being passed and determine if it is an acceptable sequence by either returning the string true or false. The str parameter will be composed of + and = symbols with several letters between them (ie. ++d+===+c++==a) and for the string to be true each letter must be surrounded by a + symbol. So the string to the left would be false. The string will not be empty and will have at least one letter. 
+/*
+Exercise: 3.1
+=======================================
+Write a function called absolute, which returns the absolute value of the number
+it is given as its argument.  The absolute value of a negative number is the
+positive version of that same number, and the absolute value of a positive
+number (or zero) is that number itself.
 */
 
-function SimpleSymbols(str) { 
+function absolute(num) {
+	if (num < 0) return -num;
+	return num;
+}
 
-  var ch;
-  for (i = 0; i < str.length; i++) {
-    ch = str[i];
-    if (/[A-z]/.test(ch)) {
-      if (i == 0 || str[i - 1] !== '+' || str[i + 1] !== '+') {
-        return false;
-      }
-    }
+
+/* Looking at closures */
+
+// var variable = "top-level";
+// 
+// function printVariable() {
+//   console.log("inside printVariable, the variable holds '" +
+//         variable + "'.");
+// }
+// 
+// function test() {
+//   var variable = "local";
+//   console.log("inside test, the variable holds '" + variable + "'.");
+//   printVariable();
+// }
+// 
+// test();
+
+var variable = "top-level";
+function parentFunction() {
+  var variable = "local";
+  function childFunction() {
+    console.log(variable);
   }
-  return true;
-         
+  childFunction();
 }
-
-/**
-ABCheck
-=====================
-have the function ABCheck(str) take the str parameter being passed and return the string true if the characters a and b are separated by exactly 3 places anywhere in the string at least once (ie. "lane borrowed" would result in true because there is exactly three characters between a and b). Otherwise return the string false. 
-*/
-
-function ABCheck(str) { 
-
-  return /a...b/i.test(str);
-         
-}
-
-
-
-/**
-RunLength
-=====================
-*/
-
-function RunLength(str) { 
-
-  var result = "";
-  for (i = 0; i < str.length; ) {
-    result += str.slice(i).match(new RegExp(str[i] + '*'))[0].length + str[i];
-     i += (+result[result.length - 2]);
-  }
-  return result;
-         
-}
-
-
-function RunLength2(str) {
-	return str.replace(/([a-z])\1*/g, function(elem) {
-		return elem.length + elem[0];
-	});
-}
-
+parentFunction();
 
 
 
 /*
-ArithGeoII
-=======================
+Exercise 3.2
+=======================================
+Write a function greaterThan, which takes one argument, a number, and returns a
+function that represents a test.  When this returned function is called with a
+single number as argument, it returns a boolean: true if the given number is
+greater than the number that was used to create the test function, and false
+otherwise.
 */
 
-function seqRecur(compare, arr, diff) {
-  if (arr.length < 2) return true;
-  if (compare(arr[0],arr[1]) === diff) 
-    return seqRecur(compare, arr.slice(1), diff);
-  else return false;
-}
-
-function ArithGeoII(arr) {
-  if (arr.length < 3) return -1;
-  if (seqRecur(function (a,b) { return b - a; }, arr, (arr[1] - arr[0]))) return "Arithmetic";
-  if (seqRecur(function (a,b) { return b / a; }, arr, (arr[1] / arr[0]))) return "Geometric";
-  return -1;
-}
-
-
-/****
-
-function numRepeats(str) {
-  var charCounts = str
-    .split("")
-    .map(function(char){
-      return str.match(new RegExp(char,'g')).length;
-    });
-
-  return Math.max.apply(null, charCounts);
+function greaterThan(testNum) {
+	return function(num) {
+		return num > testNum;
+	};
 }
 
 
 
-function LetterCountI(str) {
-
-  var sortedWords = str
-    .replace(/([^\w ])/g, "")
-    .split(" ")
-    .sort(function(a, b) { return numRepeats(b) - numRepeats(a); });
-
-  return (numRepeats(sortedWords[0]) > 1) ? sortedWords[0] : -1;
-         
-}
 
 
-***/
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************
+Eloquent JavaScript: Chapter 4
+****************************************************************/
+
+
+/*
+You can use variables as property names!
+*/
+// var propertyName = "length"; 
+// var text = "hello world";
+// console.log(text[propertyName]);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -197,10 +155,50 @@ function countZeros2(numbers) {
 
 
 
+/*
+Partially applied functions
+*/
+
+var op = {
+  "+": function(a, b){return a + b;},
+  "==": function(a, b){return a == b;},
+  "===": function(a, b){return a === b;},
+  "!": function(a){return !a;}
+  /* and so on */
+};
+
+var equals3 = function(x) { return op['=='](3, x);};
 
 
+// function asArray(quasiArray, start) {
+// 	var result = [];
+// 	for (i = (start || 0); i < quasiArray.length; i++)
+// 		result.push(quasiArray[i]);
+// 	return result;
+// }
+// 
+// function partial(func) {
+// 	var fixedArgs = asArray(arguments, 1);
+// 	return function() {
+// 		return func.apply(null, fixedArgs.concat(arguments));
+// 	};
+// }
 
 
+function partial(fn) {	// comes with potential arguments
+  // A reference to the Array#slice method.
+  var slice = Array.prototype.slice;
+  // Convert arguments object to an array, removing the first argument.
+  var args = slice.call(arguments, 1);
+
+  return function() {
+    // Invoke the originally-specified function, passing in all originally-
+    // specified arguments, followed by any just-specified arguments.
+    return fn.apply(this, args.concat(slice.call(arguments, 0)));
+  };
+}
+
+var 
 
 
 
