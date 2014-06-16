@@ -241,6 +241,22 @@ console.log(sum([1,2,3]));
 
 
 
+/*   Compose and currying  */
+// Generic form of compose:
+// var myFunction = function1.compose(function2);
+// When calling myFunction(args), you get function2 invoked with 'args', then that result
+// is passed to function1.
+
+Function.prototype.compose  = function(argFunction) {
+    var invokingFunction = this;
+    return function() {
+        return  invokingFunction.call(this,argFunction.apply(this,arguments));
+    }
+}
+
+// var  queryString =  String.prototype.substring.compose(String.prototype.indexOf).curry('?');
+// queryString.call("http://www.wunderground.com?query=94101&amp;weekday=Tuesday");  		//?query=94101&amp;weekday=Tuesday
+
 
 
 
